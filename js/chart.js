@@ -3,7 +3,6 @@ var map = AmCharts.makeChart( "chartdiv", {
   "theme": "none",
   "hideCredits":true,
   "projection": "miller",
-
   "imagesSettings": {
     "rollOverColor": "pink",
     "rollOverScale": 3,
@@ -13,38 +12,62 @@ var map = AmCharts.makeChart( "chartdiv", {
   },
 
   "areasSettings": {
-    "unlistedAreasColor": "pink"
+    "unlistedAreasColor": "pink",
+    "autoZoom": true,
+    "selectedColor": "pink"
   },
 
   "dataProvider": {
+    "linkToObject": "0",
     "map": "worldLow",
-    "images": [ {
-      "zoomLevel": 5,
-      "scale": 0.5,
-      "title": "Singapore",
-      "latitude": 1.3521,
-      "longitude": 103.8198,
-      "modal": "foxsports"
-    }, {
+    "images": [  {
       "zoomLevel": 5,
       "scale": 0.5,
       "title": "Reston, VA",
       "latitude": 38.9586,
-      "longitude": -77.3570,
-      "url": "appian.html"
+      "longitude": -83.3570,
+      "modal": "Appian",
+      "id": 0
     }, {
       "zoomLevel": 5,
       "scale": 0.5,
       "title": "Boston, MA",
       "latitude": 42.3601,
       "longitude": -71.0589,
-      "url": "alchemista.html"
+      "modal": "Alchemista",
+      "id": 1
     }, {
       "zoomLevel": 5,
       "scale": 0.5,
-      "title": "Hong Kong",
-      "latitude": 22.3964,
-      "longitude": 114.1095,
+      "title": "Singapore",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "modal": "Fox Sports",
+      "id": 2
+    }, {
+      "zoomLevel": 5,
+      "scale": 0.5,
+      "title": "Zurich",
+      "latitude": 47.3769,
+      "longitude": 8.5417,
+      "modal": "SIXHackathon",
+      "id": 3
+    }, {
+      "zoomLevel": 5,
+      "scale": 0.5,
+      "title": "Washington, DC",
+      "latitude": 39.9072,
+      "longitude": -77.0369,
+      "modal": "Hoya Hacks",
+      "id": 4
+    }, {
+      "zoomLevel": 5,
+      "scale": 0.5,
+      "title": "Washington, DC",
+      "latitude": 38.9072,
+      "longitude": -77.0369,
+      "modal": "The Hoya",
+      "id": 5
     } ]
   }
 } );
@@ -91,6 +114,12 @@ function createCustomMarker( image ) {
   pulse.className = 'pulse';
   holder.appendChild( pulse );
 
+  // create text box label
+  var label = document.createElement( 'p' );
+  label.className = 'label';
+  label.innerHTML = image.modal;
+  holder.appendChild( label );
+  
   // append the marker to the map container
   image.chart.chartDiv.appendChild( holder );
   
@@ -100,9 +129,10 @@ function createCustomMarker( image ) {
       var modal = document.getElementById(image.modal);
       modal.style.display = "block";
       
+      var id = parseInt(image.id);
       // close the modal
-      var span = document.getElementsByClassName("close")[0];
-      span.onclick = function() {
+      var span = document.getElementsByClassName("close")[id];
+      span.onclick = function(event) {
         modal.style.display = "none";
       }
       // When the user clicks anywhere outside of the modal, close it
